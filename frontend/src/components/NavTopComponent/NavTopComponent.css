@@ -1,0 +1,90 @@
+/* Search bar styles */
+.search-wrapper {
+  max-width: 400px;
+
+}
+
+.search-icon {
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.form-control-lg {
+  height: 48px;
+  font-size: 0.95rem;
+  border-radius: 1rem;
+}
+
+.form-control:focus {
+  background-color: #f1f9ff !important;
+}
+
+/* Button styles */
+.btn-create-meet {
+  border: none;
+  color: white;
+  background-color: #0d47a1;
+  height: 40px;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-create-meet:hover {
+  color: white;
+  background-color: #053174;
+}
+
+.btn-notify {
+  border: none;
+  color: black;
+  background-color: #f3f4f6;
+  height: 40px;
+  font-weight: 500;
+  border-radius: 0.5rem;
+}
+
+.btn-notify:hover {
+  color: black;
+  background-color: #e5e7eb;
+}
+
+.btn-icon {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  background-color: #ffffff;
+}
+
+/* Avatar styles */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navbar-top-box {
+  border-radius: 1.5rem;
+  position: sticky;
+  top: 42px;
+}
+
+.btn-join-meet {
+  height: 40px;
+  font-weight: 500;
+  border-radius: 0.5rem;
+}

@@ -1,0 +1,15 @@
+.create-instant-meet-box {
+    border-radius: 1rem;
+}
+
+.create-instant-meet-box input {
+    border-radius: 0.5rem;
+}
+
+.create-instant-meet-box textarea {
+    border-radius: 0.5rem;
+}
+
+.create-instant-meet-buttons button {
+    border-radius: 0.5rem;
+}
