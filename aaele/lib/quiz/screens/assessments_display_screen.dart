@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aaele/Insights/repository/home_repository.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
@@ -6,6 +8,7 @@ import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:aaele/widgets/document_card.dart';
 import 'package:aaele/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,10 +18,10 @@ class AssessmentsDisplayScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LecturesDisplayScreenState();
+      AssessmentsDisplayScreenState();
 }
 
-class _LecturesDisplayScreenState
+class AssessmentsDisplayScreenState
     extends ConsumerState<AssessmentsDisplayScreen> {
   List<MeetingModel> allMeetings = [];
   String? userName = "";
@@ -80,37 +83,57 @@ class _LecturesDisplayScreenState
                   ? const Center(
                       child: SpinKitSpinningLines(color: Colors.blue, size: 60),
                     )
-                  : ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: allMeetings.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            // getNotesForMeeting(allMeetings[index].meetId);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => TakeQuizScreen()));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            // child: SubjectCard(
-                            //   name: allMeetings[index].title,
-                            //   testBy: allMeetings[index].hostName,
-                            //   description: allMeetings[index].description,
-                            //   lecDisplayImage:
-                            //       Constants.lecDisplayImage[index % 3],
-                            //   color: Constants.subjectColors[index % 5],
-                            // ),
-                            child: DocumentCard(),
-                          ),
-                        );
-                      },
-                    ),
+                  : ValueListenableBuilder(
+                      valueListenable: selected,
+                      builder: (context, value, _) {
+                        return value == 0 ? LiveAssessmentsDisplay() : PastAssessmentsDisplay();
+                      })
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget LiveAssessmentsDisplay() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: allMeetings.length,
+      itemBuilder: (context, index) {
+        return const Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: DocumentCard(
+            testTitle: "Test 1",
+            scheduledOn: "12-12-2024",
+            endsOn: "13-12-2024",
+            totalPoints: "10",
+            live: true,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget PastAssessmentsDisplay() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: allMeetings.length,
+      itemBuilder: (context, index) {
+        return const Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: DocumentCard(
+            testTitle: "Test 1",
+            scheduledOn: "12-12-2024",
+            endsOn: "13-12-2024",
+            totalPoints: "10",
+            live: false,
+          ),
+        );
+      },
     );
   }
 
@@ -163,7 +186,10 @@ class _LecturesDisplayScreenState
                         ),
                         child: Text(
                           "Live Assessments",
-                          style: TextStyle(fontWeight: FontWeight.bold, color: value == 0 ? Colors.black : Colors.black54),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  value == 0 ? Colors.black : Colors.black54),
                         ),
                       ),
                     );
