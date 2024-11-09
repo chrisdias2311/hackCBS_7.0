@@ -32,6 +32,10 @@ function App() {
 
 
         {/* Video Pages */}
+        <Route element={<ProtectedRoute />}>
+          {/* <Route path='/' element={<VideoFrame />} /> */}
+          <Route path='/room/:roomId' element={<RoomFrame />} />
+        </Route>
 
 
       </Routes>
