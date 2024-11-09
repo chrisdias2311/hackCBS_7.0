@@ -1,4 +1,4 @@
-import 'package:aaele/quiz/controller/quiz_controller.dart';
+import 'package:aaele/quiz/controller/socket_controller.dart';
 import 'package:aaele/widgets/snackbar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
@@ -79,8 +79,8 @@ class _TakeQuizScreenState extends ConsumerState<TakeQuizScreen>
   @override
   Widget build(BuildContext context) {
     ChatUser currentUser = ChatUser(id: "1", firstName: "Vighnesh");
-    final messages = ref.watch(quizControllerProvider);
-    final quizController = ref.watch(quizControllerProvider.notifier);
+    final messages = ref.watch(socketControllerProvider);
+    final quizController = ref.watch(socketControllerProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.lightGreen.shade200,
       appBar: AppBar(
