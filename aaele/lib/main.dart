@@ -8,27 +8,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  // Gemini.init(apiKey: "AIzaSyBuZr6PhkGpecYjISGJ3Q-Fce0oj5NppPA");
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var username = sharedPreferences.getString('name');
+  var role = sharedPreferences.getString('role');
   log(username ?? "Not Stored");
   runApp(ProviderScope(
-    child: MyApp(username: username ?? ""),
+    child: MyApp(username: username ?? "", role: role ?? "Student"),
   ));
 }
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   String username;
-  MyApp({super.key, required this.username});
+  String role;
+  MyApp({super.key, required this.username, required this.role});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AAELE',
-      home: (username != "") ? const CustomBottomBar() : const LoginScreen(),
+      home: (username != "") ? CustomBottomBar(role: role,) : const LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

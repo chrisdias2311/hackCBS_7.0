@@ -5,19 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-final socketControllerProvider =
-    StateNotifierProvider.autoDispose<SocketController, List<ChatMessage>>((ref) {
-  return SocketController();
+final socketControllerProvider = StateNotifierProvider.autoDispose.family<SocketController, List<ChatMessage>, String>((ref, testId) {
+  return SocketController(testId: testId);
 });
 
 class SocketController extends StateNotifier<List<ChatMessage>> {
-  SocketController() : super([]) {
+  final String testId;
+  SocketController({required this.testId}) : super([]) {
     _initSocket();
     _flutterTts.setVoice({"name": currentVoice["name"], "locale": currentVoice["locale"]});
   }
 
-  final String serverUrl = 'ws://192.168.158.212:5000';
-  final String testId = "6719fb40f1230bb78e7c4740";
+  // final String serverUrl = 'ws://192.168.0.102:5000';
+  final String serverUrl = "wss://mood-lens-server.onrender.com";
+  // final String testId = "6719fb40f1230bb78e7c4740";
   late io.Socket socket;
   FlutterTts _flutterTts = FlutterTts();
   List<Map> voices = [
