@@ -1,0 +1,11 @@
+.join-instant-meet-box {
+    border-radius: 1rem;
+}
+
+.join-instant-meet-box input {
+    border-radius: 0.5rem;
+}
+
+.join-instant-meet-buttons button {
+    border-radius: 0.5rem;
+}
