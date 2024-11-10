@@ -15,6 +15,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         {/* <=======================Test Pages====================> */}
+        <Route path='/test-socket' element={<TestSocket />} />
+
         {/* <=======================Test Pages====================> */}
         <Route path='/view' element={<ChrisViewAnalytics />} />
         <Route path='/*' element={<ErrorPage />} />
