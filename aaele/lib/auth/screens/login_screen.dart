@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:aaele/auth/repository/auth_repository.dart';
+import 'package:aaele/widgets/custom_bottom_bar.dart';
 import 'package:aaele/database.dart';
 import 'package:aaele/models/user_model.dart';
-import 'package:aaele/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       isLoading = false;
     });
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const CustomBottomBar()),
+        MaterialPageRoute(builder: (context) => CustomBottomBar(role: prefs.getString("role") ?? "Student",)),
         (Route<dynamic> route) => false);
   }
 

@@ -5,6 +5,7 @@ class Report {
   final List<Emotion> textEmotions;
   final List<Emotion> videoEmotions;
   final List<Emotion> audioEmotions;
+  final int presentPercentage;
 
   Report({
     required this.id,
@@ -13,16 +14,19 @@ class Report {
     required this.textEmotions,
     required this.videoEmotions,
     required this.audioEmotions,
+    required this.presentPercentage,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
-      id: json['_id'],
-      studentId: json['student_id'],
-      meetId: json['meet_id'],
+      id: json['_id'] ?? "",
+      studentId: json['student_id'] ?? "",
+      meetId: json['meet_id'] ?? "",
       textEmotions: List<Emotion>.from(json['text_emotions'].map((x) => Emotion.fromJson(x))),
       videoEmotions: List<Emotion>.from(json['video_emotions'].map((x) => Emotion.fromJson(x))),
       audioEmotions: List<Emotion>.from(json['audio_emotions'].map((x) => Emotion.fromJson(x))),
+      // presentPercentage: json['presentPercentage'] ?? ""
+      presentPercentage: json['presentPercentage'] ?? 0
     );
   }
 }
@@ -44,11 +48,11 @@ class Emotion {
 
   factory Emotion.fromJson(Map<String, dynamic> json) {
     return Emotion(
-      happy: json['happy'].toDouble(),
-      surprised: json['surprised'].toDouble(),
-      confused: json['confused'].toDouble(),
-      bored: json['bored'].toDouble(),
-      pnf: json['pnf'].toDouble(),
+      happy: json['happy'].toDouble() ?? 0.0,
+      surprised: json['surprised'].toDouble() ?? 0.0,
+      confused: json['confused'].toDouble() ?? 0.0,
+      bored: json['bored'].toDouble() ?? 0.0,
+      pnf: json['pnf'].toDouble() ?? 0.0,
     );
   }
 }

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:aaele/Insights/repository/home_repository.dart';
 import 'package:aaele/classroom/widgets/subject_card.dart';
 import 'package:aaele/constants/constants.dart';
+import 'package:aaele/models/live_assessment_model.dart';
 import 'package:aaele/models/meeting_model.dart';
+import 'package:aaele/quiz/controller/quiz_controller.dart';
 import 'package:aaele/quiz/screens/take_quiz_screen.dart';
 import 'package:aaele/widgets/document_card.dart';
 import 'package:aaele/widgets/snackbar.dart';
@@ -86,7 +88,9 @@ class AssessmentsDisplayScreenState
                   : ValueListenableBuilder(
                       valueListenable: selected,
                       builder: (context, value, _) {
-                        return value == 0 ? LiveAssessmentsDisplay() : PastAssessmentsDisplay();
+                        return value == 0
+                            ? LiveAssessmentsDisplay()
+                            : PastAssessmentsDisplay();
                       })
             ],
           ),
@@ -96,45 +100,87 @@ class AssessmentsDisplayScreenState
   }
 
   Widget LiveAssessmentsDisplay() {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: allMeetings.length,
-      itemBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.only(bottom: 10.0),
-          child: DocumentCard(
-            testTitle: "Test 1",
-            scheduledOn: "12-12-2024",
-            endsOn: "13-12-2024",
-            totalPoints: "10",
-            live: true,
+    return ref.watch(getLiveAssessmentsProvider).when(
+          data: (liveAssessmentsList) {
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: liveAssessmentsList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: DocumentCard(
+                    testTitle: liveAssessmentsList[index].test.testName,
+                    scheduledOn:
+                        liveAssessmentsList[index].test.startDateAndTime,
+                    endsOn: liveAssessmentsList[index].test.endDateAndTime,
+                    totalPoints:
+                        liveAssessmentsList[index].test.maxMarks.toString(),
+                    testId: liveAssessmentsList[index].test.id,
+                    live: true,
+                  ),
+                );
+              },
+            );
+          },
+          error: (error, stackTrace) {
+            return errorSnackBar(context);
+          },
+          loading: () => const Center(
+            child: SpinKitSpinningLines(color: Colors.blue, size: 60),
           ),
         );
-      },
-    );
   }
 
   Widget PastAssessmentsDisplay() {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: allMeetings.length,
-      itemBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.only(bottom: 10.0),
-          child: DocumentCard(
-            testTitle: "Test 1",
-            scheduledOn: "12-12-2024",
-            endsOn: "13-12-2024",
-            totalPoints: "10",
-            live: false,
+    return ref.watch(getPastAssessmentsProvider).when(
+          data: (pastAssessmentsList) {
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: pastAssessmentsList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: DocumentCard(
+                    testTitle: pastAssessmentsList[index].test.testName,
+                    scheduledOn: pastAssessmentsList[index].test.startDateAndTime,
+                    endsOn: pastAssessmentsList[index].test.endDateAndTime,
+                    totalPoints: pastAssessmentsList[index].test.maxMarks.toString(),
+                    testId: pastAssessmentsList[index].test.id,
+                    live: false,
+                  ),
+                );
+              },
+            );
+          },
+          error: (error, stackTrace) {
+            return errorSnackBar(context);
+          },
+          loading: () => const Center(
+            child: SpinKitSpinningLines(color: Colors.blue, size: 60),
           ),
         );
-      },
-    );
+    // return ListView.builder(
+    //   scrollDirection: Axis.vertical,
+    //   shrinkWrap: true,
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   itemCount: allMeetings.length,
+    //   itemBuilder: (context, index) {
+    //     return Padding(
+    //       padding: const EdgeInsets.only(bottom: 10.0),
+    //       child: DocumentCard(
+    //         testTitle: "Test 1",
+    //         scheduledOn: DateTime.now(),
+    //         endsOn: DateTime.now(),
+    //         totalPoints: "10",
+    //         live: false,
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget AssessmentToggleButton() {
