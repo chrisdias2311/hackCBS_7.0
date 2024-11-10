@@ -1,0 +1,19 @@
+.card-title-font {
+    font-size: 0.9rem;
+    font-weight: 450;
+    color: #000;
+}
+
+.card-box {
+    border-radius: 1rem;
+}
+
+.card-icon {
+    background-color: #90caf9;
+    border-radius: 0.7rem;
+
+}
+
+.card-icon svg {
+    color: #0d47a1;
+}
